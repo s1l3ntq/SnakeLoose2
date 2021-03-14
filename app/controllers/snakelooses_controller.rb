@@ -1,0 +1,2 @@
+class SnakeloosesController < ApplicationController
+end
