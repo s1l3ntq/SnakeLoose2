@@ -18,6 +18,7 @@ let snakeBody = [{x:200, y:100},
     ]
 
 
+
 function createSnake(body) {
     ctx.fillStyle= "blue";
     ctx.fillRect(body.x, body.y , 15, 20)
@@ -49,7 +50,9 @@ window.addEventListener("keydown", function(e) {
   });
 
 function snakeController() {
-const head = {x: snakeBody[0].x, y}
+const head = {x: snakeBody[0].x+15, y: snakBody[0].y+15}
+
+
 
 }
 
