@@ -73,3 +73,6 @@ h1 {
     text-align: center;
     font-size: 140px;
   }
+
+  canvas { background: #9518dd;
+ }
