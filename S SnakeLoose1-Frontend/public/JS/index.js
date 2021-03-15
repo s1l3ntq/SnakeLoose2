@@ -15,8 +15,11 @@ let snakeBody = [{x:200, y:100},
     {x:190, y:100},
     {x:180, y:100},
     {x:170, y:100}  
-    ]
+]
 
+let xDirection = 10;
+    
+let ydirection = 0;
 
 
 function createSnake(body) {
@@ -27,8 +30,6 @@ function createSnake(body) {
 function deploySnake() {
     snakeBody.forEach(createSnake)
 }
-
-deploySnake()
 
 
 
@@ -49,11 +50,32 @@ window.addEventListener("keydown", function(e) {
     console.log(e)
   });
 
-function snakeController() {
-const head = {x: snakeBody[0].x+15, y: snakBody[0].y+15}
-
-
-
+function snakeHead() {
+const head = {x: snakeBody[0].x+xDirection, y: snakeBody[0].y+ydirection}
+snakeBody.unshift(head)
+snakeBody.pop
 }
+function game() {
+    setTimeout(function delay(){
+        clear()
+        food()
+        snakeHead()
+        deploySnake()
+        game()
+    }, 1000)
+}
+game()
 
-//"ArrowUp"	0x26 (38) "ArrowRight"	0x27 (39) "ArrowLeft"	0x25 (37) "ArrowDown"	0x28 (40)
+
+
+function clear() {
+    ctx.fillStyle = "#9518dd";
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+}
+    
+function food() {
+ctx.beginPath();
+ctx.arc(300, 300, 10, 0, Math.PI * 2, false);
+ctx.strokeStyle = "white";
+ctx.stroke();
+}
