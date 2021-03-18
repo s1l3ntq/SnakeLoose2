@@ -80,22 +80,22 @@ function deploySnake() {
 
   window.addEventListener("keydown", function(e) {
     
-    if (e.key === "ArrowUp") {
+    if (e.key === "ArrowUp" && yDirection !== 10 ) {
         xDirection = 0;
         yDirection = -10;
         console.log("you pressed up")
     }
-    else if (e.key === "ArrowDown") {
+    else if (e.key === "ArrowDown" && yDirection !== -10) {
         xDirection = 0;
         yDirection = 10;
         console.log("you pressed down")
     }
-    else if (e.key === "ArrowRight") {
+    else if (e.key === "ArrowRight" && xDirection !== -10) {
         xDirection = 10;
         yDirection = 0;
         console.log("you pressed right")
     }
-    else if (e.key === "ArrowLeft") {
+    else if (e.key === "ArrowLeft" && xDirection !== 10) {
         xDirection = -10;
         yDirection = 0;  
     }
@@ -124,13 +124,10 @@ function game() {
 
         clear()
         game()
-        //snakeDirection()
         food()
         snakeHead()
         deploySnake()
-        //box()
-        //popOff()
-    }, 100)
+    }, 500)
 }
 
 game()
