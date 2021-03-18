@@ -17,19 +17,38 @@ let snakeBody = [{x:200, y:100},
     {x:170, y:100}  
 ]
 
+// let snakeBox = [{X:350, y:250},
+//     {x:340, y:250},
+//     {x:330, y:250},
+//     {x:320, y:250},
+// ]
+
 let xDirection = 10;
     
-let ydirection = 0;
+let yDirection = 0;
 
 
 function createSnake(body) {
     ctx.fillStyle= "blue";
-    ctx.fillRect(body.x, body.y , 15, 20)
+    ctx.fillRect(body.x, body.y , 15, 20);
+    ctx.strokeStyle= "darkblue";  
+    ctx.strokeRect(body.x, body.y, 15, 20);
 }
+
+// function createBox(box) {
+//     ctx.fillStyle= "black";
+//     ctx.fillRect(box.x, box.y, 10, 10);
+//     ctx.strokeStyle= "white";
+//     ctx.strokeRect(box.x, box.y, 10, 10)
+// }
 
 function deploySnake() {
     snakeBody.forEach(createSnake)
 }
+
+// function popOff() {
+//     snakeBox.forEach(createBox)
+// }
 
 
 
@@ -51,26 +70,39 @@ window.addEventListener("keydown", function(e) {
   });
 
 function snakeHead() {
-const head = {x: snakeBody[0].x+xDirection, y: snakeBody[0].y+ydirection}
-snakeBody.unshift(head)
-snakeBody.pop
+    var head = {x: snakeBody[0].x+xDirection, y: snakeBody[0].y+yDirection}
+    snakeBody.unshift(head);
+    snakeBody.pop();
 }
+
+// function box() {
+//     var head = {X: snakeBox[0].x+xDirection, y: snakeBox[0].y+yDirection}
+//     snakeBox.unshift(head);
+//     snakeBox.pop();
+// }
+
 function game() {
     setTimeout(function delay(){
         clear()
+        game()
         food()
         snakeHead()
         deploySnake()
-        game()
-    }, 1000)
+        //box()
+        //popOff()
+    }, 100)
 }
+
 game()
+
 
 
 
 function clear() {
     ctx.fillStyle = "#9518dd";
+    ctx.strokeStyle = "darkblue"
     ctx.fillRect(0, 0, canvas.width, canvas.height);
+    //ctx.strokeRect(0, 0, canvas.width, canvas.height);
 }
     
 function food() {
