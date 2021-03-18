@@ -30,9 +30,9 @@ let yDirection = 0;
 
 function createSnake(body) {
     ctx.fillStyle= "blue";
-    ctx.fillRect(body.x, body.y , 15, 20);
+    ctx.fillRect(body.x, body.y , 10, 10);
     ctx.strokeStyle= "darkblue";  
-    ctx.strokeRect(body.x, body.y, 15, 20);
+    ctx.strokeRect(body.x, body.y, 10, 10);
 }
 
 // function createBox(box) {
@@ -52,22 +52,60 @@ function deploySnake() {
 
 
 
-window.addEventListener("keydown", function(e) {
+// window.addEventListener("keydown", function(e) {
+    
+//     if (e.key === "ArrowUp") {
+//         xDirection = 0;
+//         yDirection = -10;
+//         console.log("you pressed up")
+//     }
+//     else if (e.key === "ArrowDown") {
+//         xDirection = -10;
+//         yDirection = 0;
+//         console.log("you pressed down")
+//     }
+//     else if (e.key === "ArrowRight") {
+//         xDirection = 10;
+//         yDirection = 0;
+//         console.log("you pressed right")
+//     }
+//     else if (e.key === "ArrowLeft") {
+//         xDirection = -10;
+//         yDirection = 0;  
+//     }
+//     console.log(e)
+//   });
+
+
+
+  window.addEventListener("keydown", function(e) {
     
     if (e.key === "ArrowUp") {
+        xDirection = 0;
+        yDirection = -10;
         console.log("you pressed up")
     }
     else if (e.key === "ArrowDown") {
+        xDirection = 0;
+        yDirection = 10;
         console.log("you pressed down")
     }
     else if (e.key === "ArrowRight") {
+        xDirection = 10;
+        yDirection = 0;
         console.log("you pressed right")
     }
     else if (e.key === "ArrowLeft") {
-        console.log("you pressed left")
+        xDirection = -10;
+        yDirection = 0;  
     }
     console.log(e)
   });
+
+
+  
+
+
 
 function snakeHead() {
     var head = {x: snakeBody[0].x+xDirection, y: snakeBody[0].y+yDirection}
@@ -83,8 +121,10 @@ function snakeHead() {
 
 function game() {
     setTimeout(function delay(){
+
         clear()
         game()
+        //snakeDirection()
         food()
         snakeHead()
         deploySnake()
@@ -111,3 +151,4 @@ ctx.arc(300, 300, 10, 0, Math.PI * 2, false);
 ctx.strokeStyle = "white";
 ctx.stroke();
 }
+
