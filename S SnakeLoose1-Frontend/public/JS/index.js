@@ -11,6 +11,9 @@ startgame.addEventListener('click', function () {
 var canvas = document.getElementById("snakeboard");
 var ctx = canvas.getContext("2d");
 
+
+let score = 0
+let bodyPart = 0
 let snakeBody = [{x:200, y:100},
     {x:190, y:100},
     {x:180, y:100},
@@ -26,6 +29,8 @@ let snakeBody = [{x:200, y:100},
 let xDirection = 10;
     
 let yDirection = 0;
+
+const growthRate = 1
 
 
 function createSnake(body) {
@@ -149,3 +154,25 @@ ctx.strokeStyle = "white";
 ctx.stroke();
 }
 
+function positionMatch(position) {
+    return snakeBody.some(segment => {
+        return samePosition(seg, position)
+    })
+}
+
+function samePosition(pos1, pos2) {
+    return pos1.x === pos2.x && pos1y === pos2.y
+}
+
+function snakeGrowth(amount) {
+    bodyPart += amount
+
+}
+
+function snakeEats() {
+    if (samePosition(food)) {
+
+    }
+    )
+
+}
