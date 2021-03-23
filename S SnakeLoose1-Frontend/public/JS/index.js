@@ -28,10 +28,7 @@ let xDirection = 10;
 
 let yDirection = 0;
 
-let food = {
-    x : randomTen(0, canvas.width - 10),
-    y : randomTen(0, canvas.height - 10)
-}
+
 let foodx = 150
 let foody = 230
 
@@ -158,12 +155,12 @@ function has_game_ended()
        { console.log("Collided") }
       //return true
     }
-    const hitLeftWall = snakeBody[0].x < 1;  
-    const hitRightWall = snakeBody[0].x >= canvas.height -10;
-    const hitToptWall = snakeBody[0].y < 1;
-    const hitBottomWall = snakeBody[0].y >= canvas.width - 10;
+    const hitLeftWall = snakeBody[0].x < 0;  
+    const hitRightWall = snakeBody[0].x > canvas.height -10;
+    const hitToptWall = snakeBody[0].y < 0;
+    const hitBottomWall = snakeBody[0].y > canvas.width - 10;
     
-    return (hitLeftWall ||  hitRightWall || hitToptWall || hitBottomWall) 
+    return hitLeftWall ||  hitRightWall || hitToptWall || hitBottomWall 
       
 
     
