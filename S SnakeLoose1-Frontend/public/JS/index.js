@@ -109,6 +109,7 @@ function moveSnake() {
     }
 }
 
+// calculate score then randomize placement of the food
 function hasEaten(){
 
         score += 10;
@@ -116,26 +117,22 @@ function hasEaten(){
         randomizeFood();
 }
 
-
+//Main functionality of the game
 function game() {
     setTimeout(function delay(){
         
-        if (has_game_ended()) return;
-
+        if (has_game_ended()) return
         clear()
-        
         drawFood()
-        //food()
         deploySnake()
         moveSnake()
         game()
-        //snakeEats()
+        
     }, 150)
 }
 
 
 game()
-//snakeEats()
 
 
 
@@ -145,21 +142,21 @@ function clear() {
     ctx.strokeStyle = "darkblue"
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 }
-
+//boolean that proctors end game
 function has_game_ended()
 {  
-  for (let i = 1 ; i < snakeBody.length; i++) 
+    //checks to see if snake has collided with self 
+  for (let i = 4 ; i < snakeBody.length; i++) 
   {    
     const has_collided = snakeBody[i].x === snakeBody[0].x && snakeBody[i].y === snakeBody[0].y
-    if (has_collided)
-       { console.log("Collided") }
-      //return true
+    
+      return has_collided
     }
     const hitLeftWall = snakeBody[0].x < 0;  
     const hitRightWall = snakeBody[0].x > canvas.height -10;
     const hitToptWall = snakeBody[0].y < 0;
     const hitBottomWall = snakeBody[0].y > canvas.width - 10;
-    
+    // checks to see if snake collides with wall
     return hitLeftWall ||  hitRightWall || hitToptWall || hitBottomWall 
       
 
