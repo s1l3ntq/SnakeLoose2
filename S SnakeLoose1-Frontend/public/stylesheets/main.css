@@ -63,7 +63,11 @@ h1 {
     top: 30%;
 }
 
-.highscore {
+.recentscores {
+    top: 55%;
+}
+
+.highscores {
     top: 60%;
    
 }

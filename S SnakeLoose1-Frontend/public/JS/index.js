@@ -1,3 +1,8 @@
+const baseUrl = "http://127.0.0.1:3000/games"
+const form = document.getElementById("scoreForm")
+//form.addEventListener("submit", submitScore)
+const container = document.getElementById("container")
+
 btnWindow = document.getElementById('btn-group');
 gameBoard = document.getElementById('gameboard');
 startgame = document.getElementById('startgame');
@@ -182,32 +187,35 @@ function handleEndGame(){
     ctx.font = "72px iomanoid"
     ctx.strokeText = "black"
     ctx.fillText("Game Over",45,100)
+    //createForm()
 
-
-    let myScore = document.createElement('form');
-        myScore.setAttribute("class", "formSubmission")
-        myScore.setAttribute('action', "/");
-        myScore.setAttribute('method', 'post');
-    let myInput = document.createElement('input');
-        myInput.setAttribute('type', 'text');
-        myInput.setAttribute('name', 'playername');
-        //myInput.setAttribute('value', id);
-        myScore.appendChild(myInput);
-        submitScore.appendChild(myScore);
-        
-        let finalScore = document.createElement("input")
-        finalScore.setAttribute("hidden", "true")
-        finalScore.value = score 
-        myScore.appendChild(finalScore)
-        
-        let s = document.createElement("input");
-        s.setAttribute("type", "submit");
-        s.setAttribute("value", "Submit Score");
-        myScore.appendChild(s);
-        // myScore.submit();
 }
+// function createForm(){
+// let myScore = document.createElement('form');
+//     myScore.setAttribute("class", "formSubmission")
+//     myScore.setAttribute('action', "http://127.0.0.1:3000/games");
+//     myScore.setAttribute('method', 'post');
+// let myInput = document.createElement('input');
+//     myInput.setAttribute('type', 'text');
+//     myInput.setAttribute('name', 'name');
+//     myInput.setAttribute('value', id);
+//     myScore.appendChild(myInput);
+//     submitScore.appendChild(myScore);
+    
+//     let finalScore = document.createElement("input")
+//     finalScore.setAttribute("hidden", "true")
+//     finalScore.value = score 
+//     myScore.appendChild(finalScore)
+    
+//     let s = document.createElement("input");
+//     s.setAttribute("type", "submit");
+//     s.setAttribute("value", "Submit Score");
+//     myScore.appendChild(s);
+//     submitData(myInput.value, finalScore.value)
+//      myScore.submit();
+// }
 
-// submitData: function(name, score) {
+//  function submitData(name, score) {
 //     const config = {
 //       method: 'POST',
 //       headers: {
@@ -216,14 +224,52 @@ function handleEndGame(){
 //       },
 //       body: JSON.stringify({'name': name, 'score': score, 'game_id': 1})
 //     }
-//     return fetch(`${domain}/api/snakeloose/add_score`, config)
+//     return fetch(baseUrl, config)
 //     .then(function(response) {
 //       return response.text();
 //     }).catch(function(error) {
-//       alert("Failed to save score");
+//       //alert("Failed to save score");
 //       return error.message;
 //     });
-//   },
+//   }
+
+
+
+
+  function snakeLoose() {
+      getAllScores();
+  }
+
+  function getAllScores(){
+      fetch(baseUrl)
+        .then(r => r.json())
+        .then(handleScores)
+  }
+
+  function handleScores(recentScores) {
+      recentScores.forEach(s =>displayRecentScores(s))
+  }
+
+  function displayRecentScores(scores) {
+      fetch(basUrl)
+    const config = {
+        method: 'get',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify({'name': 'name'})
+      }
+      return fetch(baseUrl, config)
+      .then(function(response) {
+        return response.text();
+      }).catch(function(error) {
+        alert("Failed to save score");
+        return error.message;
+      });
+    }
+
+  //}
 
 //   updateScore: function() {
 //     fetch(`${domain}/api/trivia/trivia_top_10_players`).then(object => object.json()).then(object => app.fillScores(object))
@@ -231,3 +277,39 @@ function handleEndGame(){
 // }
 
 // document.addEventListener("DOMContentLoaded", app.init)
+
+
+// function init() {
+//     getAllPosts();
+// }
+
+
+// function handleSubmit(e) {
+//     e.preventDefault();
+//     // let title = document.getElementById("blog-title").value;
+//     // let author = document.getElementById("blog-author").value;
+//     // let content = document.getElementById("blog-content").value;
+//     const postInfo = {
+//         title: e.target[0].value,
+//         author: e.target[1].value,
+//         content: e.target[2].value
+//     }
+
+//     // by default Fetch makes a GET request, if you want to make any other request you HAVE to tell it what kind
+//     fetch(baseUrl, {
+//         method: "POST",
+//         headers: {
+//             'Content-Type': 'application/json',
+//         },
+//         body: JSON.stringify(postInfo)
+//     })
+//         .then(r => r.json())
+//         .then(data => putPostOnDom(data))
+// }
+
+// function getAllPosts() {
+//     fetch(baseUrl)
+//         // the result from baseURL is NOT JSON it's a String
+//         .then(r => r.json())
+//         .then(handlePosts)
+// }

@@ -1,10 +1,19 @@
 class SnakeloosesController < ApplicationController
 
-    def add_a_score
-        Snakeloose.create(score_params)
+  def index
+    all_top_scores = Snakeloose.all
+    render json: all_top_scores
+  end  
+  
+  
+  def create
+         user_score = Snakeloose.create(score_params)
+        if user_score.save
+          render json: user_score
+        end
     end
 
-    def add_recent_scores
+    def update
         score = SnakeLoose.order("Desc").limit(10)
         render json: score ,except:[:id]
     end
