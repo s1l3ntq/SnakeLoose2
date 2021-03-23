@@ -1,7 +1,8 @@
 btnWindow = document.getElementById('btn-group');
 gameBoard = document.getElementById('gameboard');
 startgame = document.getElementById('startgame');
-
+currentScore = document.getElementById("score");
+submitScore = document.getElementById('SubmitScore')
 //new game button "creating onetime -click toggle" What the function does
 startgame.addEventListener('click', function () {
     btnWindow.style.display = "none"
@@ -31,6 +32,7 @@ let yDirection = 0;
 
 let foodx = 150
 let foody = 230
+let isRunning = true
 
 
 //helper function to ramdomize by ten pixels food once snake has eaten it
@@ -97,7 +99,6 @@ function deploySnake() {
 function moveSnake() {
     //Define the direction the head is moving
     var head = {x: snakeBody[0].x + xDirection, y: snakeBody[0].y + yDirection}
-    console.log(foodx, snakeBody[0].x)
     let hasEatenIt = snakeBody[0].x === foodx && snakeBody[0].y === foody
     //Changing coordinates, adding new positon to the array as snake object moves 
     snakeBody.unshift(head);
@@ -113,7 +114,7 @@ function moveSnake() {
 function hasEaten(){
 
         score += 10;
-        document.getElementById("score").innerHTML = score;
+        currentScore.innerHTML = score;
         randomizeFood();
 }
 
@@ -121,12 +122,16 @@ function hasEaten(){
 function game() {
     setTimeout(function delay(){
         
-        if (has_game_ended()) return
-        clear()
-        drawFood()
-        deploySnake()
-        moveSnake()
-        game()
+        if (isRunning){
+            clear()
+            drawFood()
+            deploySnake()
+            moveSnake()
+            has_game_ended()
+            game()
+        } else {
+            handleEndGame()
+        }
         
     }, 150)
 }
@@ -149,20 +154,20 @@ function has_game_ended()
   for (let i = 4 ; i < snakeBody.length; i++) 
   {    
     const has_collided = snakeBody[i].x === snakeBody[0].x && snakeBody[i].y === snakeBody[0].y
-    
-      return has_collided
+        if (has_collided) {
+      return isRunning = false
+        }
     }
     const hitLeftWall = snakeBody[0].x < 0;  
     const hitRightWall = snakeBody[0].x > canvas.height -10;
     const hitToptWall = snakeBody[0].y < 0;
     const hitBottomWall = snakeBody[0].y > canvas.width - 10;
     // checks to see if snake collides with wall
-    return hitLeftWall ||  hitRightWall || hitToptWall || hitBottomWall 
+   if (hitLeftWall ||  hitRightWall || hitToptWall || hitBottomWall) {
+
+       return isRunning = false
+   }
       
-
-    
-
-
 }
 
 function renderScoreForm() {
@@ -171,3 +176,58 @@ function renderScoreForm() {
      console.log(score)
 
 }
+
+function handleEndGame(){
+    console.log("game over")
+    ctx.font = "72px iomanoid"
+    ctx.strokeText = "black"
+    ctx.fillText("Game Over",45,100)
+
+
+    let myScore = document.createElement('form');
+        myScore.setAttribute("class", "formSubmission")
+        myScore.setAttribute('action', "/");
+        myScore.setAttribute('method', 'post');
+    let myInput = document.createElement('input');
+        myInput.setAttribute('type', 'text');
+        myInput.setAttribute('name', 'playername');
+        //myInput.setAttribute('value', id);
+        myScore.appendChild(myInput);
+        submitScore.appendChild(myScore);
+        
+        let finalScore = document.createElement("input")
+        finalScore.setAttribute("hidden", "true")
+        finalScore.value = score 
+        myScore.appendChild(finalScore)
+        
+        let s = document.createElement("input");
+        s.setAttribute("type", "submit");
+        s.setAttribute("value", "Submit Score");
+        myScore.appendChild(s);
+        // myScore.submit();
+}
+
+// submitData: function(name, score) {
+//     const config = {
+//       method: 'POST',
+//       headers: {
+//         'Content-Type': 'application/json',
+//         'Accept': 'application/json'
+//       },
+//       body: JSON.stringify({'name': name, 'score': score, 'game_id': 1})
+//     }
+//     return fetch(`${domain}/api/snakeloose/add_score`, config)
+//     .then(function(response) {
+//       return response.text();
+//     }).catch(function(error) {
+//       alert("Failed to save score");
+//       return error.message;
+//     });
+//   },
+
+//   updateScore: function() {
+//     fetch(`${domain}/api/trivia/trivia_top_10_players`).then(object => object.json()).then(object => app.fillScores(object))
+//   }
+// }
+
+// document.addEventListener("DOMContentLoaded", app.init)

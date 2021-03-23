@@ -21,7 +21,14 @@ h1 {
     top: -28%;
     left: 25%;
 }
-
+.formSubmission {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    top: 70%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
 .snake {
     display: none;
 }
