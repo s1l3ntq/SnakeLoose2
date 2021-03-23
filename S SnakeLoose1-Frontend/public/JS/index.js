@@ -32,7 +32,8 @@ let food = {
     x : randomTen(0, canvas.width - 10),
     y : randomTen(0, canvas.height - 10)
 }
-
+let foodx = 150
+let foody = 230
 
 
 //helper function to ramdomize by ten pixels food once snake has eaten it
@@ -41,15 +42,16 @@ function randomTen(min, max) {
 }
 
 function randomizeFood() {
-    
+    foodx = randomTen(0, canvas.width - 10)
+    foody = randomTen(0, canvas.height - 10)
 }
 
 //creates the instance of the food object 
   function drawFood() {
     ctx.fillStyle = 'red';
     ctx.strokestyle = 'darkred';
-    ctx.fillRect(150, 230, 10, 10);
-    ctx.strokeRect(150, 230, 10, 10);
+    ctx.fillRect(foodx, foody, 10, 10);
+    ctx.strokeRect(foodx, foody, 10, 10);
    }
 
 //creating a single instace of the snake(object)
@@ -98,15 +100,12 @@ function deploySnake() {
 function moveSnake() {
     //Define the direction the head is moving
     var head = {x: snakeBody[0].x + xDirection, y: snakeBody[0].y + yDirection}
-    console.log(food.x, snakeBody[0].x)
-    let hasEatenIt = snakeBody[0].x === food.x || snakeBody[0].y === food.y
+    console.log(foodx, snakeBody[0].x)
+    let hasEatenIt = snakeBody[0].x === foodx && snakeBody[0].y === foody
     //Changing coordinates, adding new positon to the array as snake object moves 
     snakeBody.unshift(head);
     if (hasEatenIt) {
-        console.log("eat")
-
         hasEaten()
-
     } else {
     //removes the current position of the tail
      snakeBody.pop();
@@ -127,7 +126,7 @@ function game() {
         if (has_game_ended()) return;
 
         clear()
-        randomizeFood()
+        
         drawFood()
         //food()
         deploySnake()
