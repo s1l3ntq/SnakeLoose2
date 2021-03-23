@@ -33,7 +33,7 @@ let food = {
     y : randomTen(0, canvas.height - 10)
 }
 
-let hasEatenIt = snakeBody[0].x === food.x && snakeBody[0].y === food.y
+
 
 //helper function to ramdomize by ten pixels food once snake has eaten it
 function randomTen(min, max) {
@@ -98,9 +98,13 @@ function deploySnake() {
 function moveSnake() {
     //Define the direction the head is moving
     var head = {x: snakeBody[0].x + xDirection, y: snakeBody[0].y + yDirection}
+    console.log(food.x, snakeBody[0].x)
+    let hasEatenIt = snakeBody[0].x === food.x || snakeBody[0].y === food.y
     //Changing coordinates, adding new positon to the array as snake object moves 
     snakeBody.unshift(head);
     if (hasEatenIt) {
+        console.log("eat")
+
         hasEaten()
 
     } else {
@@ -148,7 +152,7 @@ function clear() {
 
 function has_game_ended()
 {  
-  for (let i = 1; i < snakeBody.length; i++) 
+  for (let i = 1 ; i < snakeBody.length; i++) 
   {    
     const has_collided = snakeBody[i].x === snakeBody[0].x && snakeBody[i].y === snakeBody[0].y
     if (has_collided)
