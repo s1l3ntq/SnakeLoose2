@@ -3,4 +3,6 @@ Rails.application.routes.draw do
   resources :games
   resources :snakelooses
 
+  get '/high_scores', to: 'games#high_scores'
+
 end

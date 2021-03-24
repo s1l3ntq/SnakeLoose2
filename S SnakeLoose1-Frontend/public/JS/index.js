@@ -7,6 +7,7 @@ btnWindow = document.getElementById('btn-group');
 gameBoard = document.getElementById('gameboard');
 startgame = document.getElementById('startgame');
 currentScore = document.getElementById("score");
+scoreName = document.getElementById("scoreName");
 submitScore = document.getElementById('SubmitScore')
 highScore = document.getElementById("highscore")
 
@@ -20,9 +21,30 @@ highScore.addEventListener('click', getHighScores)
 startgame.addEventListener('click', function () {
     btnWindow.style.display = "none"
     gameBoard.style.display = "block"
-    setTimeout(function gameDelay(){
+    setTimeout(function gameDelay() {
         game()
-    }, 1999)
+    }, 7000)
+    var timeleft = 5;
+    scoreName.style.display = 'none'
+    currentScore.style.display = "none"
+    setInterval(function downloadTimer() {
+        if (timeleft <= 0) {
+            clearInterval(downloadTimer);
+            document.getElementById("countdown").style.left = "38%";
+            document.getElementById("countdown").style.fontSize = "140px";
+            document.getElementById("countdown").innerHTML = "Begin";
+            setTimeout(function removeCountdown() {
+                document.getElementById("countdown").style.display = "none";
+                scoreName.style.display = 'block'
+                currentScore.style.display = "block"
+            }, 1000)
+
+        } else {
+
+            document.getElementById("countdown").innerHTML = timeleft;
+        }
+        timeleft -= 1;
+    }, 1000);
 });
 
 // variables 
@@ -193,36 +215,51 @@ function renderScoreForm() {
 
 }
 
-function handleEndGame(){
+// function handleEndGame(){
+//     console.log("game over")
+//     ctx.font = "72px iomanoid"
+//     ctx.strokeText = "black"
+//     ctx.fillText("Game Over",45,100)
+//     createForm()
+
+// }
+
+function handleEndGame() {
     console.log("game over")
     ctx.font = "72px iomanoid"
     ctx.strokeText = "black"
-    ctx.fillText("Game Over",45,100)
+    ctx.fillText("Game Over", 45, 100)
+    scoreName.style.display = "none"
+    currentScore.style.display = "none"
     createForm()
 
 }
-function createForm(){
-let myScore = document.createElement('form');
+
+
+
+function createForm() {
+    let myScore = document.createElement('form');
     myScore.setAttribute("class", "formSubmission")
     // myScore.setAttribute('action', "http://127.0.0.1:3000/games");
     myScore.setAttribute('method', 'post');
-let myInput = document.createElement('input');
+    let myInput = document.createElement('input');
     myInput.setAttribute('type', 'text');
+    myScore.setAttribute('placeholder', "Enter Username");
     myInput.setAttribute('name', 'name');
-    myScore.setAttribute("id", "submit-score" );
+    myScore.setAttribute("id", "submit-score");
     myScore.appendChild(myInput);
     submitScore.appendChild(myScore);
-    
+
     let finalScore = document.createElement("input")
     finalScore.setAttribute("hidden", "true")
-    finalScore.value = score 
+    finalScore.value = score
     myScore.appendChild(finalScore)
-    
+
     let s = document.createElement("input");
     s.setAttribute("type", "submit");
     s.setAttribute("value", "Submit Score");
     myScore.appendChild(s);
-    document.getElementById('submit-score').addEventListener('submit', function(e) {
+    document.getElementById('submit-score').addEventListener('submit', function (e) {
         console.log("here")
         submitScores(e)
         e.preventDefault();
@@ -294,7 +331,7 @@ let myInput = document.createElement('input');
   }
 
   function getHighScores(){
-      fetch(baseUrl)
+      fetch("http://127.0.0.1:3000/high_scores")
       
         .then(r => r.json())
         .then(data => {
