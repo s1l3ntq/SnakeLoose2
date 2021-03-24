@@ -1,6 +1,5 @@
 const baseUrl = "http://127.0.0.1:3000/games"
 const form = document.getElementById("scoreForm")
-//form.addEventListener("submit", submitScore)
 const container = document.getElementById("container")
 
 btnWindow = document.getElementById('btn-group');
@@ -178,10 +177,6 @@ function game() {
 
 
 
-
-
-
-
 function clear() {
     ctx.fillStyle = "#9518dd";
     ctx.strokeStyle = "darkblue"
@@ -210,21 +205,6 @@ function has_game_ended()
       
 }
 
-function renderScoreForm() {
-     score = snakeBody.length 
-     
-     console.log(score)
-
-}
-
-// function handleEndGame(){
-//     console.log("game over")
-//     ctx.font = "72px iomanoid"
-//     ctx.strokeText = "black"
-//     ctx.fillText("Game Over",45,100)
-//     createForm()
-
-// }
 
 function handleEndGame() {
     console.log("game over")
@@ -242,7 +222,6 @@ function handleEndGame() {
 function createForm() {
     let myScore = document.createElement('form');
     myScore.setAttribute("class", "formSubmission")
-    // myScore.setAttribute('action', "http://127.0.0.1:3000/games");
     myScore.setAttribute('method', 'post');
     let myInput = document.createElement('input');
     myInput.setAttribute('type', 'text');
@@ -266,30 +245,8 @@ function createForm() {
         submitScores(e)
         e.preventDefault();
     })
-    //  myScore.submit();
+    
 }
-
-
-//  function submitData(name, score) {
-    //     const config = {
-        //       method: 'POST',
-//       headers: {
-    //         'Content-Type': 'application/json',
-//         'Accept': 'application/json'
-//       },
-//       body: JSON.stringify({'name': name, 'score': score, 'game_id': 1})
-//     }
-//     return fetch(baseUrl, config)
-//     .then(function(response) {
-    //       return response.text();
-    //     }).catch(function(error) {
-        //       //alert("Failed to save score");
-//       return error.message;
-//     });
-//   }
-
-
-
 
   function snakeLoose() {
       getAllScores();
@@ -316,9 +273,6 @@ function createForm() {
             body: JSON.stringify(scoreInfo)
         })
         .then(getAllScores())
-        // .then(r => r.json())
-        // .then(data =>console.log(data))
-        
     }
     
     function getAllScores(){
@@ -359,113 +313,3 @@ function createForm() {
       recentScore.appendChild(div)
       recentScore.style.visibility = "visible"
   }
-
-//   function handleScores(recentScores) {
-//       recentScores.forEach(s =>displayRecentScores(s))
-//   }
-  
-//   function displayRecentScores(scores) {
-//     let score = document.getElementById("score");
-//     const get = {
-//         name: scores.target[0].value,
-//           score : score.innerText
-          
-//         }
-//         fetch(baseUrl, {
-//         method: 'get',
-//         headers: {
-//           'Content-Type': 'application/json',
-//           'Accept': 'application/json'
-//         },
-//         body: JSON.stringify(get)
-//     })
-//     .then(r=>r.json())
-//         .then(data =>getAllScores())
-//         .catch(function(error) {
-//         alert("Failed to display score");
-//         return error.message;
-//     });
-// }
-
-// fetch('url').then(data => data.json()).then(scores => displayScores(scores))
-// function  displayScores(scores) {
-// scores.map(score => {
-// const parent = document.getElementById('parent_example')
-// const element = document.createElement('div');
-// element.innerHTML = `${score.name} scored: ${score.score}`
-// parent.appendChild(element)
-// })
-// }
-
-// document.addEventListener("DOMContentLoaded", () => {
-//     document.getElementById('score').addEventListener("click", () => renderPage())
-//   })
-
-//   function renderPage() {
-//     document.getElementById('carousel-parent').insertAdjacentHTML('afterend', scoreTable);
-//     fetch(baseUrl).then(object => object.json()).then(object => renderScore(object));
-//   }
-
-//   function renderScore(object) {
-//     const tableBodyTrivia = document.getElementById('table-body-trivia')
-//       for(let i = 0; i < object[0].trivia_scores.length; i++) {
-//         let tr = document.createElement('tr');
-//         tr.innerHTML = `
-//         <td>${object[0].trivia_scores[i].score}</td>
-//         <td>${object[0].trivia_scores[i].name}</td>`
-//         tableBodyTrivia.appendChild(tr);
-//       }
-//   } 
-
-
-
-
-
-
-
-
-
-    //  }
-
-//   updateScore: function() {
-//     fetch(`${domain}/api/trivia/trivia_top_10_players`).then(object => object.json()).then(object => app.fillScores(object))
-//   }
-// }
-
-// document.addEventListener("DOMContentLoaded", app.init)
-
-
-// function init() {
-//     getAllPosts();
-// }
-
-
-// function handleSubmit(e) {
-    //     e.preventDefault();
-//     // let title = document.getElementById("blog-title").value;
-//     // let author = document.getElementById("blog-author").value;
-//     // let content = document.getElementById("blog-content").value;
-//     const postInfo = {
-//         title: e.target[0].value,
-//         author: e.target[1].value,
-//         content: e.target[2].value
-//     }
-
-//     // by default Fetch makes a GET request, if you want to make any other request you HAVE to tell it what kind
-//     fetch(baseUrl, {
-//         method: "POST",
-//         headers: {
-//             'Content-Type': 'application/json',
-//         },
-//         body: JSON.stringify(postInfo)
-//     })
-//         .then(r => r.json())
-//         .then(data => putPostOnDom(data))
-// }
-
-// function getAllPosts() {
-//     fetch(baseUrl)
-//         // the result from baseURL is NOT JSON it's a String
-//         .then(r => r.json())
-//         .then(handlePosts)
- //}
