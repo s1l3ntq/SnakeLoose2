@@ -2,15 +2,17 @@ class SnakeloosesController < ApplicationController
 
   def index
     all_top_scores = Snakeloose.all
-    render json: all_top_scores
+    render json: all_top_scores.to_json(except: [:created_at, :updated_at])
   end  
   
   
   def create
-         user_score = Snakeloose.create(score_params)
+         user_score = Snakeloose.new(score_params)
         if user_score.save
-          render json: user_score
-        end
+          render json: user_score.to_json(except: [:created_at, :updated_at])
+        else
+          render json: user_score.errors, status: unprocessable_entity
+         end
     end
 
     def update

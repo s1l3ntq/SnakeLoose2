@@ -8,10 +8,21 @@ gameBoard = document.getElementById('gameboard');
 startgame = document.getElementById('startgame');
 currentScore = document.getElementById("score");
 submitScore = document.getElementById('SubmitScore')
+highScore = document.getElementById("highscore")
+
+highScore.addEventListener('click', getHighScores)
+
+
+
+
+
 //new game button "creating onetime -click toggle" What the function does
 startgame.addEventListener('click', function () {
     btnWindow.style.display = "none"
     gameBoard.style.display = "block"
+    setTimeout(function gameDelay(){
+        game()
+    }, 1999)
 });
 
 // variables 
@@ -138,11 +149,11 @@ function game() {
             handleEndGame()
         }
         
-    }, 150)
+    }, 50)
 }
 
 
-game()
+
 
 
 
@@ -187,48 +198,53 @@ function handleEndGame(){
     ctx.font = "72px iomanoid"
     ctx.strokeText = "black"
     ctx.fillText("Game Over",45,100)
-    //createForm()
+    createForm()
 
 }
-// function createForm(){
-// let myScore = document.createElement('form');
-//     myScore.setAttribute("class", "formSubmission")
-//     myScore.setAttribute('action', "http://127.0.0.1:3000/games");
-//     myScore.setAttribute('method', 'post');
-// let myInput = document.createElement('input');
-//     myInput.setAttribute('type', 'text');
-//     myInput.setAttribute('name', 'name');
-//     myInput.setAttribute('value', id);
-//     myScore.appendChild(myInput);
-//     submitScore.appendChild(myScore);
+function createForm(){
+let myScore = document.createElement('form');
+    myScore.setAttribute("class", "formSubmission")
+    // myScore.setAttribute('action', "http://127.0.0.1:3000/games");
+    myScore.setAttribute('method', 'post');
+let myInput = document.createElement('input');
+    myInput.setAttribute('type', 'text');
+    myInput.setAttribute('name', 'name');
+    myScore.setAttribute("id", "submit-score" );
+    myScore.appendChild(myInput);
+    submitScore.appendChild(myScore);
     
-//     let finalScore = document.createElement("input")
-//     finalScore.setAttribute("hidden", "true")
-//     finalScore.value = score 
-//     myScore.appendChild(finalScore)
+    let finalScore = document.createElement("input")
+    finalScore.setAttribute("hidden", "true")
+    finalScore.value = score 
+    myScore.appendChild(finalScore)
     
-//     let s = document.createElement("input");
-//     s.setAttribute("type", "submit");
-//     s.setAttribute("value", "Submit Score");
-//     myScore.appendChild(s);
-//     submitData(myInput.value, finalScore.value)
-//      myScore.submit();
-// }
+    let s = document.createElement("input");
+    s.setAttribute("type", "submit");
+    s.setAttribute("value", "Submit Score");
+    myScore.appendChild(s);
+    document.getElementById('submit-score').addEventListener('submit', function(e) {
+        console.log("here")
+        submitScores(e)
+        e.preventDefault();
+    })
+    //  myScore.submit();
+}
+
 
 //  function submitData(name, score) {
-//     const config = {
-//       method: 'POST',
+    //     const config = {
+        //       method: 'POST',
 //       headers: {
-//         'Content-Type': 'application/json',
+    //         'Content-Type': 'application/json',
 //         'Accept': 'application/json'
 //       },
 //       body: JSON.stringify({'name': name, 'score': score, 'game_id': 1})
 //     }
 //     return fetch(baseUrl, config)
 //     .then(function(response) {
-//       return response.text();
-//     }).catch(function(error) {
-//       //alert("Failed to save score");
+    //       return response.text();
+    //     }).catch(function(error) {
+        //       //alert("Failed to save score");
 //       return error.message;
 //     });
 //   }
@@ -240,36 +256,133 @@ function handleEndGame(){
       getAllScores();
   }
 
-  function getAllScores(){
-      fetch(baseUrl)
-        .then(r => r.json())
-        .then(handleScores)
-  }
+  async function submitScores(s) {
 
-  function handleScores(recentScores) {
-      recentScores.forEach(s =>displayRecentScores(s))
-  }
-
-  function displayRecentScores(scores) {
-      fetch(basUrl)
-    const config = {
-        method: 'get',
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json'
-        },
-        body: JSON.stringify({'name': 'name'})
-      }
-      return fetch(baseUrl, config)
-      .then(function(response) {
-        return response.text();
-      }).catch(function(error) {
-        alert("Failed to save score");
-        return error.message;
-      });
+      s.preventDefault();
+      let q = document.getElementsByClassName("btn recentscores").value ;
+      let score = document.getElementById("score");
+      console.log(score.innerText)
+      
+      let scoreInfo = {
+          name: s.target[0].value,
+          score: score.innerText
+        }
+        
+        fetch(baseUrl, {
+          method: 'POST',
+          headers: {
+              'Content-Type': 'application/json',
+              'Accept': 'application/json'
+            },
+            body: JSON.stringify(scoreInfo)
+        })
+        .then(getAllScores())
+        // .then(r => r.json())
+        // .then(data =>console.log(data))
+        
     }
+    
+    function getAllScores(){
+      fetch(baseUrl)
+        
+        .then(r => r.json())
+        .then(data => {
+            data.forEach(d => {
+                renderScore(d)
+            })
+        })
+  }
 
-  //}
+  function getHighScores(){
+      fetch(baseUrl)
+      
+        .then(r => r.json())
+        .then(data => {
+            data.forEach(d => {
+                renderHighScore(d)
+            })
+        })
+  }
+
+  function renderHighScore(score) {
+    const div = document.createElement("h2")
+    div.innerText = `${score.name}, ${score.score}`
+    btnWindow.appendChild(div)
+  }
+  
+
+  function renderScore(score) {
+      const div = document.createElement("h2")
+      div.innerText = `${score.name}, ${score.score}`
+      submitScore.appendChild(div)
+  }
+
+//   function handleScores(recentScores) {
+//       recentScores.forEach(s =>displayRecentScores(s))
+//   }
+  
+//   function displayRecentScores(scores) {
+//     let score = document.getElementById("score");
+//     const get = {
+//         name: scores.target[0].value,
+//           score : score.innerText
+          
+//         }
+//         fetch(baseUrl, {
+//         method: 'get',
+//         headers: {
+//           'Content-Type': 'application/json',
+//           'Accept': 'application/json'
+//         },
+//         body: JSON.stringify(get)
+//     })
+//     .then(r=>r.json())
+//         .then(data =>getAllScores())
+//         .catch(function(error) {
+//         alert("Failed to display score");
+//         return error.message;
+//     });
+// }
+
+// fetch('url').then(data => data.json()).then(scores => displayScores(scores))
+// function  displayScores(scores) {
+// scores.map(score => {
+// const parent = document.getElementById('parent_example')
+// const element = document.createElement('div');
+// element.innerHTML = `${score.name} scored: ${score.score}`
+// parent.appendChild(element)
+// })
+// }
+
+// document.addEventListener("DOMContentLoaded", () => {
+//     document.getElementById('score').addEventListener("click", () => renderPage())
+//   })
+
+//   function renderPage() {
+//     document.getElementById('carousel-parent').insertAdjacentHTML('afterend', scoreTable);
+//     fetch(baseUrl).then(object => object.json()).then(object => renderScore(object));
+//   }
+
+//   function renderScore(object) {
+//     const tableBodyTrivia = document.getElementById('table-body-trivia')
+//       for(let i = 0; i < object[0].trivia_scores.length; i++) {
+//         let tr = document.createElement('tr');
+//         tr.innerHTML = `
+//         <td>${object[0].trivia_scores[i].score}</td>
+//         <td>${object[0].trivia_scores[i].name}</td>`
+//         tableBodyTrivia.appendChild(tr);
+//       }
+//   } 
+
+
+
+
+
+
+
+
+
+    //  }
 
 //   updateScore: function() {
 //     fetch(`${domain}/api/trivia/trivia_top_10_players`).then(object => object.json()).then(object => app.fillScores(object))
@@ -285,7 +398,7 @@ function handleEndGame(){
 
 
 // function handleSubmit(e) {
-//     e.preventDefault();
+    //     e.preventDefault();
 //     // let title = document.getElementById("blog-title").value;
 //     // let author = document.getElementById("blog-author").value;
 //     // let content = document.getElementById("blog-content").value;
@@ -312,4 +425,4 @@ function handleEndGame(){
 //         // the result from baseURL is NOT JSON it's a String
 //         .then(r => r.json())
 //         .then(handlePosts)
-// }
+ //}
