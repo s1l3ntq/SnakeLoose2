@@ -210,7 +210,7 @@ function handleEndGame() {
     console.log("game over")
     ctx.font = "72px iomanoid"
     ctx.strokeText = "black"
-    ctx.fillText("Game Over", 45, 100)
+    ctx.fillText("Game Over", 45, 50)
     scoreName.style.display = "none"
     currentScore.style.display = "none"
     createForm()
