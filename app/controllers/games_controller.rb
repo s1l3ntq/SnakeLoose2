@@ -2,11 +2,11 @@ class GamesController < ApplicationController
 
     def index
         recent_scores = Game.all.reverse
-        render json: recent_scores.to_json(except: [:created_at, :updated_at])
+        render json: recent_scores.to_json(except: [:created_at, :updated_at, :game_id], include: {snakeloose: {only: [:score]}})
     end
 
     def create
-        # byebug
+        
         player_score = Game.new(score_params)
        if player_score.save
          render json: player_score.to_json(except: [:created_at, :updated_at])
@@ -15,10 +15,6 @@ class GamesController < ApplicationController
        end
    end
 
-   def update
-       scores = Game.order("Desc").limit(10)
-       render json: scores ,except:[:id]
-   end
 
    def high_scores
     highest = Game.all.order(score: :desc).limit(5)
