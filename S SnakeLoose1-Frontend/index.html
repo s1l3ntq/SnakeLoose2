@@ -9,19 +9,30 @@
 
 <body>
   <h1>Snake 1</h1>
-  <div>
-    <div id="btn-group" class="btn-group">
-      <button id="startgame" class="btn game">New Game</button>
-      <button id="highscore" class="btn highscore">High Scores</button>
+  <div class="container">
+    <div class="left"> 
+      <h2 id="lefttitle"></h2>
+      <div id="highscoregroup"></div>
     </div>
-    <div id="gameboard" class="snake">
-      <span id="scoreName">Score: </span>
-      <div id="score">0</div>
-      <div id="countdown"></div>
-      <canvas id="snakeboard" width="400" height="400"></canvas>
-      <div id="SubmitScore"> </div>
+    <div class="middle"> 
+      <div id="btn-group" class="btn-group">
+        <button id="startgame" class="btn game">New Game</button>
+        <button id="highscore" class="btn highscore">High Scores</button>
+      </div>
+      <div id="gameboard" class="snake">
+        <span id="scoreName">Score: </span>
+        <div id="score">0</div>
+        <div id="countdown"></div>
+        <canvas id="snakeboard" width="400" height="400"></canvas>
+        <div id="SubmitScore"> </div>
+      </div>
+    </div>
+    <div class="right">
+      <h2 id="righttitle"></h2>
+      <div id="recentscores"></div>
     </div>
   </div>
+ 
   <script defer src="./public/JS/index.js"></script>
 </body>
 

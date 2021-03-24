@@ -10,6 +10,8 @@ currentScore = document.getElementById("score");
 scoreName = document.getElementById("scoreName");
 submitScore = document.getElementById('SubmitScore')
 highScore = document.getElementById("highscore")
+highScoreGroup = document.getElementById("highscoregroup")
+recentScore = document.getElementById("recentscores")
 
 highScore.addEventListener('click', getHighScores)
 
@@ -339,19 +341,23 @@ function createForm() {
                 renderHighScore(d)
             })
         })
+        
   }
 
   function renderHighScore(score) {
-    const div = document.createElement("h2")
+    const div = document.createElement("h3")
     div.innerText = `${score.name}, ${score.score}`
-    btnWindow.appendChild(div)
+    document.getElementById("lefttitle").innerHTML = "Top Scores"
+    highScoreGroup.appendChild(div)
   }
   
 
   function renderScore(score) {
-      const div = document.createElement("h2")
+      const div = document.createElement("h3")
       div.innerText = `${score.name}, ${score.score}`
-      submitScore.appendChild(div)
+      document.getElementById("righttitle").innerHTML = "Recent Scores"
+      recentScore.appendChild(div)
+      recentScore.style.visibility = "visible"
   }
 
 //   function handleScores(recentScores) {
