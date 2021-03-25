@@ -2,15 +2,15 @@ const baseUrl = "http://127.0.0.1:3000/games"
 const form = document.getElementById("scoreForm")
 const container = document.getElementById("container")
 
-btnWindow = document.getElementById('btn-group');
-gameBoard = document.getElementById('gameboard');
-startgame = document.getElementById('startgame');
-currentScore = document.getElementById("score");
-scoreName = document.getElementById("scoreName");
-submitScore = document.getElementById('SubmitScore')
-highScore = document.getElementById("highscore")
-highScoreGroup = document.getElementById("highscoregroup")
-recentScore = document.getElementById("recentscores")
+const btnWindow = document.getElementById('btn-group');
+const gameBoard = document.getElementById('gameboard');
+const startgame = document.getElementById('startgame');
+const currentScore = document.getElementById("score");
+const scoreName = document.getElementById("scoreName");
+const submitScore = document.getElementById('SubmitScore')
+const highScore = document.getElementById("highscore")
+const highScoreGroup = document.getElementById("highscoregroup")
+const recentScore = document.getElementById("recentscores")
 
 highScore.addEventListener('click', getHighScores)
 
@@ -19,13 +19,15 @@ highScore.addEventListener('click', getHighScores)
 
 
 //new game button "creating onetime -click toggle" What the function does
-startgame.addEventListener('click', function () {
+startgame.addEventListener('click',  () => {
+    console.log(this)
     btnWindow.style.display = "none"
     gameBoard.style.display = "block"
+    // built in time function meaured in mili secs takes 2 args 
     setTimeout(function gameDelay() {
         game()
     }, 7000)
-    var timeleft = 5;
+    let timeleft = 5;
     scoreName.style.display = 'none'
     currentScore.style.display = "none"
     setInterval(function downloadTimer() {
@@ -49,8 +51,8 @@ startgame.addEventListener('click', function () {
 });
 
 // variables 
-var canvas = document.getElementById("snakeboard");
-var ctx = canvas.getContext("2d");
+let canvas = document.getElementById("snakeboard");
+let ctx = canvas.getContext("2d");
 
 
 let score = 0
@@ -137,7 +139,7 @@ function deploySnake() {
 //Defines the direction of the head movement
 function moveSnake() {
     //Define the direction the head is moving
-    var head = {x: snakeBody[0].x + xDirection, y: snakeBody[0].y + yDirection}
+    let head = {x: snakeBody[0].x + xDirection, y: snakeBody[0].y + yDirection}
     let hasEatenIt = snakeBody[0].x === foodx && snakeBody[0].y === foody
     //Changing coordinates, adding new positon to the array as snake object moves 
     snakeBody.unshift(head);
@@ -299,17 +301,17 @@ function createForm() {
   }
 
   function renderHighScore(score) {
-    const div = document.createElement("h3")
-    div.innerText = `${score.name}, ${score.score}`
+    const h3 = document.createElement("h3")
+    h3.innerText = `${score.name}, ${score.score}`
     document.getElementById("lefttitle").innerHTML = "Top Scores"
-    highScoreGroup.appendChild(div)
+    highScoreGroup.appendChild(h3)
   }
   
 
   function renderScore(score) {
-      const div = document.createElement("h3")
-      div.innerText = `${score.name}, ${score.score}`
+      const h3 = document.createElement("h3")
+      h3.innerText = `${score.name}, ${score.score}`
       document.getElementById("righttitle").innerHTML = "Recent Scores"
-      recentScore.appendChild(div)
+      recentScore.appendChild(h3)
       recentScore.style.visibility = "visible"
   }
