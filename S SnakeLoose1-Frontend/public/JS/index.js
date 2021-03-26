@@ -190,7 +190,7 @@ function clear() {
 function has_game_ended()
 {  
     //checks to see if snake has collided with self 
-  for (let i = 4 ; i < snakeBody.length; i++) 
+  for (let i = 3 ; i < snakeBody.length; i++) 
   {    
     const has_collided = snakeBody[i].x === snakeBody[0].x && snakeBody[i].y === snakeBody[0].y
         if (has_collided) {
