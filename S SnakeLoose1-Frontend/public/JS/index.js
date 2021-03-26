@@ -1,26 +1,28 @@
-const baseUrl = "http://127.0.0.1:3000/games"
-const form = document.getElementById("scoreForm")
-const container = document.getElementById("container")
 
-const btnWindow = document.getElementById('btn-group');
-const gameBoard = document.getElementById('gameboard');
-const startgame = document.getElementById('startgame');
-const currentScore = document.getElementById("score");
-const scoreName = document.getElementById("scoreName");
-const submitScore = document.getElementById('SubmitScore')
-const highScore = document.getElementById("highscore")
-const highScoreGroup = document.getElementById("highscoregroup")
-const recentScore = document.getElementById("recentscores")
-
-highScore.addEventListener('click', getHighScores)
-
-
-
-
-
-//new game button "creating onetime -click toggle" What the function does
-startgame.addEventListener('click',  () => {
-    console.log(this)
+  
+  const baseUrl = "http://127.0.0.1:3000/games"
+  const form = document.getElementById("scoreForm")
+  const container = document.getElementById("container")
+  
+  const btnWindow = document.getElementById('btn-group');
+  const gameBoard = document.getElementById('gameboard');
+  const startgame = document.getElementById('startgame');
+  const currentScore = document.getElementById("score");
+  const scoreName = document.getElementById("scoreName");
+  const submitScore = document.getElementById('SubmitScore')
+  const highScore = document.getElementById("highscore")
+  const highScoreGroup = document.getElementById("highscoregroup")
+  const recentScore = document.getElementById("recentscores")
+  
+  highScore.addEventListener('click', getHighScores)
+  
+  
+  
+  
+  
+  
+  //new game button "creating onetime -click toggle" What the function does
+  startgame.addEventListener('click',  () => {
     btnWindow.style.display = "none"
     gameBoard.style.display = "block"
     // built in time function meaured in mili secs takes 2 args 
@@ -51,8 +53,8 @@ startgame.addEventListener('click',  () => {
 });
 
 // variables 
-let canvas = document.getElementById("snakeboard");
-let ctx = canvas.getContext("2d");
+const canvas = document.getElementById("snakeboard");
+const ctx = canvas.getContext("2d");
 
 
 let score = 0
@@ -222,10 +224,10 @@ function handleEndGame() {
 
 
 function createForm() {
-    let myScore = document.createElement('form');
+    const myScore = document.createElement('form');
     myScore.setAttribute("class", "formSubmission")
     myScore.setAttribute('method', 'post');
-    let myInput = document.createElement('input');
+    const myInput = document.createElement('input');
     myInput.setAttribute('type', 'text');
     myScore.setAttribute('placeholder', "Enter Username");
     myInput.setAttribute('name', 'name');
@@ -233,7 +235,7 @@ function createForm() {
     myScore.appendChild(myInput);
     submitScore.appendChild(myScore);
 
-    let finalScore = document.createElement("input")
+    const finalScore = document.createElement("input")
     finalScore.setAttribute("hidden", "true")
     finalScore.value = score
     myScore.appendChild(finalScore)
