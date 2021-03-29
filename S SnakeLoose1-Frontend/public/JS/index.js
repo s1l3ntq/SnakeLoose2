@@ -77,7 +77,7 @@ const ctx = canvas.getContext("2d");
 
 
 let score = 0
-let bodyPart = 0
+// let bodyPart = 0
 
 //snake body coordinate canvas on grid
 let snakeBody = [{x:200, y:100},
@@ -231,13 +231,13 @@ function has_game_ended()
 
 
 function handleEndGame() {
-    console.log("game over")
     ctx.font = "72px iomanoid"
     ctx.strokeText = "black"
     ctx.fillText("Game Over", 45, 50)
     scoreName.style.display = "none"
     currentScore.style.display = "none"
     createForm()
+    newGame()
 
 }
 
@@ -276,13 +276,12 @@ function createForm() {
       getAllScores();
   }
 
-  async function submitScores(s) {
+   function submitScores(s) {
 
       s.preventDefault();
       let q = document.getElementsByClassName("btn recentscores").value ;
       let score = document.getElementById("score");
       console.log(score.innerText)
-      
       let scoreInfo = {
           name: s.target[0].value,
           score: score.innerText
@@ -296,10 +295,12 @@ function createForm() {
             },
             body: JSON.stringify(scoreInfo)
         })
-        .then(getAllScores())
+        .then(getAllScores)
+        console.log(1)
     }
     
     function getAllScores(){
+        console.log(2)
       fetch(baseUrl)
         
         .then(r => r.json())
@@ -341,4 +342,17 @@ function createForm() {
     }
 
 
+    function newGame() {
+    
+    let startNewGame = document.createElement("button");
+    startNewGame.innerHTML= "New Game";
+     gameBoard.appendChild(startNewGame);
+    startNewGame.addEventListener('click', function () {
+        window.history.go(-1)
+        
+    })
+
+    
+    
+}
     
