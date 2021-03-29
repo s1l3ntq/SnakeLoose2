@@ -13,21 +13,40 @@
   const highScore = document.getElementById("highscore")
   const highScoreGroup = document.getElementById("highscoregroup")
   const recentScore = document.getElementById("recentscores")
+   const difficulty = document.getElementById("difficulty")
+   const easy = document.getElementById("easy")
+   const normal = document.getElementById("normal")
+   const hard = document.getElementById("hard")
   
   highScore.addEventListener('click', getHighScores)
   
   
-  
+  difficulty.addEventListener('click', function() {
+      startgame.style.display = "none"
+      highScore.style.display ="none"
+      difficulty.style.display = "none"
+      document.getElementById("easy").style.display = "block"
+      document.getElementById("normal").style.display = "block"
+      document.getElementById("hard").style.display = "block"
+
+
+  })
+
+  easy.addEventListener('click', () => begin(100))
+  normal.addEventListener('click', () => begin(85))
+  hard.addEventListener('click', () => begin(50))
   
   
   
   //new game button "creating onetime -click toggle" What the function does
-  startgame.addEventListener('click',  () => {
+  startgame.addEventListener('click', () => begin(85) );
+
+  function begin(difficulty) {
     btnWindow.style.display = "none"
     gameBoard.style.display = "block"
     // built in time function meaured in mili secs takes 2 args 
     setTimeout(function gameDelay() {
-        game()
+        game(difficulty)
     }, 7000)
     let timeleft = 5;
     scoreName.style.display = 'none'
@@ -50,7 +69,7 @@
         }
         timeleft -= 1;
     }, 1000);
-});
+}
 
 // variables 
 const canvas = document.getElementById("snakeboard");
@@ -78,10 +97,11 @@ let foody = 230
 let isRunning = true
 
 
-//helper function to ramdomize by ten pixels food once snake has eaten it
+//helper function to ramdomize by ten pixels food once snake has eaten it 
 function randomTen(min, max) {
     return Math.round((Math.random() * (max-min) + min) / 10) * 10;
 }
+
 
 function randomizeFood() {
     foodx = randomTen(0, canvas.width - 10)
@@ -96,7 +116,7 @@ function randomizeFood() {
     ctx.strokeRect(foodx, foody, 10, 10);
    }
 
-//creating a single instace of the snake(object)
+//creating a dynamic single instace of the snake(object)
 function createSnake(body) {
     ctx.fillStyle= "blue";
     ctx.fillRect(body.x, body.y , 10, 10);
@@ -162,7 +182,7 @@ function hasEaten(){
 }
 
 //Main functionality of the game
-function game() {
+function game(difficulty) {
     setTimeout(function delay(){
         
         if (isRunning){
@@ -171,12 +191,12 @@ function game() {
             deploySnake()
             moveSnake()
             has_game_ended()
-            game()
+            game(difficulty)
         } else {
             handleEndGame()
         }
         
-    }, 50)
+    }, difficulty)
 }
 
 
@@ -288,7 +308,7 @@ function createForm() {
                 renderScore(d)
             })
         })
-  }
+    }
 
   function getHighScores(){
       fetch("http://127.0.0.1:3000/high_scores")
@@ -300,7 +320,8 @@ function createForm() {
             })
         })
         
-  }
+
+    }
 
   function renderHighScore(score) {
     const h3 = document.createElement("h3")
@@ -311,9 +332,13 @@ function createForm() {
   
 
   function renderScore(score) {
+    
       const h3 = document.createElement("h3")
       h3.innerText = `${score.name}, ${score.score}`
       document.getElementById("righttitle").innerHTML = "Recent Scores"
       recentScore.appendChild(h3)
       recentScore.style.visibility = "visible"
-  }
+    }
+
+
+    
