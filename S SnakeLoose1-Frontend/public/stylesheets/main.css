@@ -147,4 +147,5 @@ form {
  
  .difficultySetting {
      display: none;
+     top: auto;
  }

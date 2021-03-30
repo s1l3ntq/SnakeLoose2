@@ -1,49 +1,54 @@
 
-  
-  const baseUrl = "http://127.0.0.1:3000/games"
-  const form = document.getElementById("scoreForm")
-  const container = document.getElementById("container")
-  
-  const btnWindow = document.getElementById('btn-group');
-  const gameBoard = document.getElementById('gameboard');
-  const startgame = document.getElementById('startgame');
-  const currentScore = document.getElementById("score");
-  const scoreName = document.getElementById("scoreName");
-  const submitScore = document.getElementById('SubmitScore')
-  const highScore = document.getElementById("highscore")
-  const highScoreGroup = document.getElementById("highscoregroup")
-  const recentScore = document.getElementById("recentscores")
-   const difficulty = document.getElementById("difficulty")
-   const easy = document.getElementById("easy")
-   const normal = document.getElementById("normal")
-   const hard = document.getElementById("hard")
-  
-  highScore.addEventListener('click', getHighScores)
-  
-  
-  difficulty.addEventListener('click', function() {
-      startgame.style.display = "none"
-      highScore.style.display ="none"
-      difficulty.style.display = "none"
-      document.getElementById("easy").style.display = "block"
-      document.getElementById("normal").style.display = "block"
-      document.getElementById("hard").style.display = "block"
+
+const baseUrl = "http://127.0.0.1:3000/games"
+const form = document.getElementById("scoreForm")
+const container = document.getElementById("container")
+
+const btnWindow = document.getElementById('btn-group');
+const gameBoard = document.getElementById('gameboard');
+const startgame = document.getElementById('startgame');
+const currentScore = document.getElementById("score");
+const scoreName = document.getElementById("scoreName");
+const submitScore = document.getElementById('SubmitScore')
+const highScore = document.getElementById("highscore")
+const highScoreGroup = document.getElementById("highscoregroup")
+const recentScore = document.getElementById("recentscores")
+const difficulty = document.getElementById("difficulty")
+const easy = document.getElementById("easy")
+const normal = document.getElementById("normal")
+const hard = document.getElementById("hard")
 
 
-  })
+highScore.addEventListener('click', getHighScores)
 
-  easy.addEventListener('click', () => begin(100))
-  normal.addEventListener('click', () => begin(85))
-  hard.addEventListener('click', () => begin(50))
-  
-  
-  
-  //new game button "creating onetime -click toggle" What the function does
-  startgame.addEventListener('click', () => begin(85) );
 
-  function begin(difficulty) {
+difficulty.addEventListener('click', function () {
+    startgame.style.display = "none"
+    highScore.style.display = "none"
+    difficulty.style.display = "none"
+    document.getElementById("easy").style.display = "block"
+    document.getElementById("normal").style.display = "block"
+    document.getElementById("hard").style.display = "block"
+
+
+})
+
+easy.addEventListener('click', () => begin(100))
+normal.addEventListener('click', () => begin(85))
+hard.addEventListener('click', () => begin(50))
+
+
+
+//new game button "creating onetime -click toggle" What the function does
+startgame.addEventListener('click', () => begin(85));
+
+function begin(difficulty) {
+    canvas.style.display = "block"
     btnWindow.style.display = "none"
     gameBoard.style.display = "block"
+    document.getElementById("countdown").style.display = "block"
+    // document.getElementById("countdown").innerHTML = "block"
+
     // built in time function meaured in mili secs takes 2 args 
     setTimeout(function gameDelay() {
         game(difficulty)
@@ -80,10 +85,10 @@ let score = 0
 // let bodyPart = 0
 
 //snake body coordinate canvas on grid
-let snakeBody = [{x:200, y:100},
-    {x:190, y:100},
-    {x:180, y:100},
-    {x:170, y:100}  
+let snakeBody = [{ x: 200, y: 100 },
+{ x: 190, y: 100 },
+{ x: 180, y: 100 },
+{ x: 170, y: 100 }
 ]
 
 
@@ -99,7 +104,7 @@ let isRunning = true
 
 //helper function to ramdomize by ten pixels food once snake has eaten it 
 function randomTen(min, max) {
-    return Math.round((Math.random() * (max-min) + min) / 10) * 10;
+    return Math.round((Math.random() * (max - min) + min) / 10) * 10;
 }
 
 
@@ -109,83 +114,83 @@ function randomizeFood() {
 }
 
 //creates the instance of the food object 
-  function drawFood() {
+function drawFood() {
     ctx.fillStyle = 'red';
     ctx.strokestyle = 'darkred';
     ctx.fillRect(foodx, foody, 10, 10);
     ctx.strokeRect(foodx, foody, 10, 10);
-   }
+}
 
 //creating a dynamic single instace of the snake(object)
 function createSnake(body) {
-    ctx.fillStyle= "blue";
-    ctx.fillRect(body.x, body.y , 10, 10);
-    ctx.strokeStyle= "darkblue";  
+    ctx.fillStyle = "blue";
+    ctx.fillRect(body.x, body.y, 10, 10);
+    ctx.strokeStyle = "darkblue";
     ctx.strokeRect(body.x, body.y, 10, 10);
 }
 
 //creating each instance of the snake(object)
 //polymorphism all inheriting from the same 
 function deploySnake() {
-        snakeBody.forEach(createSnake)
-    }
-    
+    snakeBody.forEach(createSnake)
+}
+
 
 //handles keystrokes 
-  window.addEventListener("keydown", function(e) {
-    
-    if (e.key === "ArrowUp" && yDirection !== 10 ) {
+window.addEventListener("keydown", function (e) {
+
+    if (e.key === "ArrowUp" && yDirection !== 10) {
         xDirection = 0;
         yDirection = -10;
-        
+
     }
     else if (e.key === "ArrowDown" && yDirection !== -10) {
         xDirection = 0;
         yDirection = 10;
-        
+
     }
     else if (e.key === "ArrowRight" && xDirection !== -10) {
         xDirection = 10;
         yDirection = 0;
-        
+
     }
     else if (e.key === "ArrowLeft" && xDirection !== 10) {
         xDirection = -10;
-        yDirection = 0;  
+        yDirection = 0;
     }
 
-  });
+});
 
 
 
 //Defines the direction of the head movement
 function moveSnake() {
     //Define the direction the head is moving
-    let head = {x: snakeBody[0].x + xDirection, y: snakeBody[0].y + yDirection}
+    let head = { x: snakeBody[0].x + xDirection, y: snakeBody[0].y + yDirection }
     let hasEatenIt = snakeBody[0].x === foodx && snakeBody[0].y === foody
     //Changing coordinates, adding new positon to the array as snake object moves 
     snakeBody.unshift(head);
     if (hasEatenIt) {
         hasEaten()
     } else {
-    //removes the current position of the tail
-     snakeBody.pop();
+        //removes the current position of the tail
+        snakeBody.pop();
     }
 }
 
 // calculate score then randomize placement of the food
-function hasEaten(){
+function hasEaten() {
 
-        score += 10;
-        currentScore.innerHTML = score;
-        randomizeFood();
+    score += 10;
+    currentScore.innerHTML = score;
+    randomizeFood();
 }
 
 //Main functionality of the game
 function game(difficulty) {
-    setTimeout(function delay(){
-        
-        if (isRunning){
+    setTimeout(function delay() {
+
+        if (isRunning) {
             clear()
             drawFood()
             deploySnake()
@@ -195,7 +200,7 @@ function game(difficulty) {
         } else {
             handleEndGame()
         }
-        
+
     }, difficulty)
 }
 
@@ -207,26 +212,24 @@ function clear() {
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 }
 //boolean that proctors end game
-function has_game_ended()
-{  
+function has_game_ended() {
     //checks to see if snake has collided with self 
-  for (let i = 3 ; i < snakeBody.length; i++) 
-  {    
-    const has_collided = snakeBody[i].x === snakeBody[0].x && snakeBody[i].y === snakeBody[0].y
+    for (let i = 3; i < snakeBody.length; i++) {
+        const has_collided = snakeBody[i].x === snakeBody[0].x && snakeBody[i].y === snakeBody[0].y
         if (has_collided) {
-      return isRunning = false
+            return isRunning = false
         }
     }
-    const hitLeftWall = snakeBody[0].x < 0;  
-    const hitRightWall = snakeBody[0].x > canvas.height -10;
+    const hitLeftWall = snakeBody[0].x < 0;
+    const hitRightWall = snakeBody[0].x > canvas.height - 10;
     const hitToptWall = snakeBody[0].y < 0;
     const hitBottomWall = snakeBody[0].y > canvas.width - 10;
     // checks to see if snake collides with wall
-   if (hitLeftWall ||  hitRightWall || hitToptWall || hitBottomWall) {
+    if (hitLeftWall || hitRightWall || hitToptWall || hitBottomWall) {
 
-       return isRunning = false
-   }
-      
+        return isRunning = false
+    }
+
 }
 
 
@@ -269,90 +272,123 @@ function createForm() {
         submitScores(e)
         e.preventDefault();
     })
-    
+
 }
 
-  function snakeLoose() {
-      getAllScores();
-  }
+function snakeLoose() {
+    getAllScores();
+}
 
-   function submitScores(s) {
+function submitScores(s) {
 
-      s.preventDefault();
-      let q = document.getElementsByClassName("btn recentscores").value ;
-      let score = document.getElementById("score");
-      console.log(score.innerText)
-      let scoreInfo = {
-          name: s.target[0].value,
-          score: score.innerText
-        }
-        
-        fetch(baseUrl, {
-          method: 'POST',
-          headers: {
-              'Content-Type': 'application/json',
-              'Accept': 'application/json'
-            },
-            body: JSON.stringify(scoreInfo)
-        })
-        .then(getAllScores)
-        console.log(1)
+    s.preventDefault();
+    let q = document.getElementsByClassName("btn recentscores").value;
+    let score = document.getElementById("score");
+    console.log(score.innerText)
+    let scoreInfo = {
+        name: s.target[0].value,
+        score: score.innerText
     }
-    
-    function getAllScores(){
-        console.log(2)
-      fetch(baseUrl)
-        
+
+    fetch(baseUrl, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+        },
+        body: JSON.stringify(scoreInfo)
+    })
+        .then(getAllScores)
+    console.log(1)
+}
+
+function getAllScores() {
+    console.log(2)
+    fetch(baseUrl)
+
         .then(r => r.json())
         .then(data => {
             data.forEach(d => {
                 renderScore(d)
             })
         })
-    }
+}
 
-  function getHighScores(){
-      fetch("http://127.0.0.1:3000/high_scores")
-      
+function getHighScores() {
+    fetch("http://127.0.0.1:3000/high_scores")
+
         .then(r => r.json())
         .then(data => {
             data.forEach(d => {
                 renderHighScore(d)
             })
         })
-        
 
-    }
 
-  function renderHighScore(score) {
+}
+
+function renderHighScore(score) {
     const h3 = document.createElement("h3")
     h3.innerText = `${score.name}, ${score.score}`
     document.getElementById("lefttitle").innerHTML = "Top Scores"
     highScoreGroup.appendChild(h3)
-  }
-  
-
-  function renderScore(score) {
-    
-      const h3 = document.createElement("h3")
-      h3.innerText = `${score.name}, ${score.score}`
-      document.getElementById("righttitle").innerHTML = "Recent Scores"
-      recentScore.appendChild(h3)
-      recentScore.style.visibility = "visible"
-    }
-
-
-    function newGame() {
-    
-    let startNewGame = document.createElement("button");
-    startNewGame.innerHTML= "New Game";
-     gameBoard.appendChild(startNewGame);
-    startNewGame.addEventListener('click', function () {
-        window.history.go(-1)
-        
-    })
-
-    
-    
 }
-    
+
+
+function renderScore(score) {
+
+    const h3 = document.createElement("h3")
+    h3.innerText = `${score.name}, ${score.score}`
+    document.getElementById("righttitle").innerHTML = "Recent Scores"
+    recentScore.appendChild(h3)
+    recentScore.style.visibility = "visible"
+}
+
+
+//     function newGame() {
+
+//     let startNewGame = document.createElement("button");
+//     startNewGame.innerHTML= "New Game";
+//      gameBoard.appendChild(startNewGame);
+//      startNewGame.addEventListener('click', function () {
+//          canvas.style.display = "none"
+//          submitScore.style.display = "none"
+//          currentScore.style.display = "none"
+//          scoreName.style.display = "none"
+//          startNewGame.style.display ="none"
+//          scoreName.style.display = "none"
+//          btnWindow.style.display = "inline"
+//     const snakeboard = document.getElementById("snakeboard")
+//         snakeboard.style.display = "block"
+//          // window.history.go(-1)
+
+
+//      })    
+// }
+
+
+function newGame() {
+    let startNewGame = document.createElement("button");
+    startNewGame.setAttribute("id", "newgame")
+    startNewGame.innerHTML = "New Game";
+    gameBoard.appendChild(startNewGame);
+    const snakeboard = document.getElementById("snakeboard")
+    startNewGame.addEventListener('click', function () {
+        gameBoard.removeChild(startNewGame)
+        clear()
+        submitScore.style.display = "none"
+        currentScore.style.display = "none"
+        scoreName.style.display = "none"
+        gameBoard.style.display = "none"
+        score.style.display = "none"
+
+        //  startNewGame.style.display ="none"
+        //  scoreName.style.display = "none"
+        //  startgame.style.display = "block"
+        //  highScore.style.display ="block"
+        // difficulty.style.display = "block"
+        btnWindow.style.display = "block"
+    })
+}
+
+
