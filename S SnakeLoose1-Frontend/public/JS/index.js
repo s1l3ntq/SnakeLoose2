@@ -40,14 +40,104 @@ hard.addEventListener('click', () => begin(50))
 
 
 //new game button "creating onetime -click toggle" What the function does
-startgame.addEventListener('click', () => begin(85));
+function newGame() {
+    let startNewGame = document.createElement("button");
+    let score = document.getElementById("score")
+    startNewGame.setAttribute("id", "newgame")
+    startNewGame.innerHTML = "New Game";
+    gameBoard.appendChild(startNewGame);
+    const snakeboard = document.getElementById("snakeboard")
+    startNewGame.addEventListener('click', function () {
+        gameBoard.removeChild(startNewGame)
+        submitScore.style.display = "none"
+        scoreName.style.display = "none"
+        gameBoard.style.display = "none"
+        currentScore.style.display = "none"
+        clear();
+        newCanvas();
+
+        
+
+        // btnWindow.style.display = "block"
+        
+        // score.style.display = "none"
+        // currentScore.style.display = "none"
+        // e.preventDefault();
+    })
+}
+
+
+function newCanvas () {
+     
+        btnWindow.style.display = "block"
+        let countdown = document.getElementById("countdown")
+        countdown.style.display = "block"
+        isRunning = true
+
+        let testBody = [{ x: 200, y: 100 },
+            { x: 190, y: 100 },
+            { x: 180, y: 100 },
+            { x: 170, y: 100 }
+            ]
+         drawBoard() 
+         resetSnake()
+
+        function test(body) {
+            ctx.fillStyle = "blue";
+            ctx.fillRect(body.x, body.y, 10, 10);
+            ctx.strokeStyle = "darkblue";
+            ctx.strokeRect(body.x, body.y, 10, 10);
+        }
+        
+        function deployTest() {
+            testBody.forEach(test)
+        }
+        deployTest()
+        
+            moveSnake(testBody)
+
+            function moveSnake() {
+                //Define the direction the head is moving
+                let head = { x: testBody[0].x + xDirection, y: testBody[0].y + yDirection }
+                let hasEatenIt = testBody[0].x === foodx && testBody[0].y === foody
+                //Changing coordinates, adding new positon to the array as snake object moves 
+                testBody.unshift(head);
+                if (hasEatenIt) {
+                    hasEaten()
+                } else {
+                    //removes the current position of the tail
+                    testBody.pop();
+                }
+            }
+            
+            // calculate score then randomize placement of the food
+            function hasEaten() {
+            
+                score += 10;
+                currentScore.innerHTML = score;
+                randomizeFood();
+            }
+        //     resetSnake()
+        //     drawBoard()
+        
+        //  startNewGame.style.display ="none"
+        //  scoreName.style.display = "none"
+        //  startgame.style.display = "block"
+        //  highScore.style.display ="block"
+        // difficulty.style.display = "block"
+        // body2.appendChild(newBody)
+    
+}
+
+
+startgame.addEventListener('click', () => begin(250));
 
 function begin(difficulty) {
     canvas.style.display = "block"
     btnWindow.style.display = "none"
     gameBoard.style.display = "block"
     document.getElementById("countdown").style.display = "block"
-    // document.getElementById("countdown").innerHTML = "block"
+    document.getElementById("countdown").innerHTML = "block"
 
     // built in time function meaured in mili secs takes 2 args 
     setTimeout(function gameDelay() {
@@ -75,6 +165,11 @@ function begin(difficulty) {
         timeleft -= 1;
     }, 1000);
 }
+let snakeBody = [{ x: 200, y: 100 },
+{ x: 190, y: 100 },
+{ x: 180, y: 100 },
+{ x: 170, y: 100 }
+]
 
 // variables 
 const canvas = document.getElementById("snakeboard");
@@ -82,14 +177,9 @@ const ctx = canvas.getContext("2d");
 
 
 let score = 0
-// let bodyPart = 0
+let unit = 10
 
 //snake body coordinate canvas on grid
-let snakeBody = [{ x: 200, y: 100 },
-{ x: 190, y: 100 },
-{ x: 180, y: 100 },
-{ x: 170, y: 100 }
-]
 
 
 let xDirection = 10;
@@ -100,6 +190,34 @@ let yDirection = 0;
 let foodx = 150
 let foody = 230
 let isRunning = true
+
+
+
+function drawBoard() {
+    ctx.strokeStyle = '#9518dd';
+    for (let i = 0; i <= canvas.width / unit + 2; i += 2) {
+      for (let j = 0; j <= canvas.height / unit + 2; j += 2) {
+        ctx.strokeRect(0, 0, unit * i, unit * j);
+    };
+    };
+    ctx.strokeStyle = '#9518dd';
+    ctx.lineWidth = 2;
+    for (let i = 1; i <= canvas.width / unit; i += 2) {
+      for (let j = 1; j <= canvas.height / unit; j += 2) {
+        ctx.strokeRect(0, 0, unit * i, unit * j);
+    };
+    };
+    ctx.lineWidth = 1;
+  };
+
+  function resetSnake() {
+       snakeBody = [{ x: 200, y: 100 },
+        { x: 190, y: 100 },
+        { x: 180, y: 100 },
+        { x: 170, y: 100 }
+        ]
+  }
+  
 
 
 //helper function to ramdomize by ten pixels food once snake has eaten it 
@@ -189,8 +307,10 @@ function hasEaten() {
 //Main functionality of the game
 function game(difficulty) {
     setTimeout(function delay() {
+        console.log(snakeBody[0].x)
 
         if (isRunning) {
+            console.log(snakeBody[0].x)
             clear()
             drawFood()
             deploySnake()
@@ -198,11 +318,12 @@ function game(difficulty) {
             has_game_ended()
             game(difficulty)
         } else {
+            console.log(snakeBody[0].x)
             handleEndGame()
         }
 
     }, difficulty)
-}
+} 
 
 
 
@@ -239,8 +360,10 @@ function handleEndGame() {
     ctx.fillText("Game Over", 45, 50)
     scoreName.style.display = "none"
     currentScore.style.display = "none"
-    createForm()
-    newGame()
+    createForm();
+    resetSnake();
+    newGame();
+    ctx.beginPath();
 
 }
 
@@ -367,28 +490,22 @@ function renderScore(score) {
 // }
 
 
-function newGame() {
-    let startNewGame = document.createElement("button");
-    startNewGame.setAttribute("id", "newgame")
-    startNewGame.innerHTML = "New Game";
-    gameBoard.appendChild(startNewGame);
-    const snakeboard = document.getElementById("snakeboard")
-    startNewGame.addEventListener('click', function () {
-        gameBoard.removeChild(startNewGame)
-        clear()
-        submitScore.style.display = "none"
-        currentScore.style.display = "none"
-        scoreName.style.display = "none"
-        gameBoard.style.display = "none"
-        score.style.display = "none"
 
-        //  startNewGame.style.display ="none"
-        //  scoreName.style.display = "none"
-        //  startgame.style.display = "block"
-        //  highScore.style.display ="block"
-        // difficulty.style.display = "block"
-        btnWindow.style.display = "block"
-    })
-}
 
+
+
+// function playAgain() {
+//   document.getElementById('play-again').addEventListener('click', function(e) {
+//     document.getElementById('flappy-dot-template').remove();
+//     const canvas = document.createElement('canvas')
+//     canvas.setAttribute('id', 'canvas1');
+//     document.getElementById('carousel-parent').appendChild(canvas);
+//     const instruction = document.createElement('h2')
+//     instruction.innerHTML = "Press 'SPACE' to Fly";
+//     instruction.style = "color:yellow;"
+//     document.getElementById('carousel-parent').appendChild(instruction);
+//     startFlappyGame();
+//     e.preventDefault();
+//   })
+// }
 
