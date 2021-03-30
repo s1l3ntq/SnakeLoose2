@@ -39,105 +39,16 @@ hard.addEventListener('click', () => begin(50))
 
 
 
-//new game button "creating onetime -click toggle" What the function does
-function newGame() {
-    let startNewGame = document.createElement("button");
-    let score = document.getElementById("score")
-    startNewGame.setAttribute("id", "newgame")
-    startNewGame.innerHTML = "New Game";
-    gameBoard.appendChild(startNewGame);
-    const snakeboard = document.getElementById("snakeboard")
-    startNewGame.addEventListener('click', function () {
-        gameBoard.removeChild(startNewGame)
-        submitScore.style.display = "none"
-        scoreName.style.display = "none"
-        gameBoard.style.display = "none"
-        currentScore.style.display = "none"
-        clear();
-        newCanvas();
-
-        
-
-        // btnWindow.style.display = "block"
-        
-        // score.style.display = "none"
-        // currentScore.style.display = "none"
-        // e.preventDefault();
-    })
-}
 
 
-function newCanvas () {
-     
-        btnWindow.style.display = "block"
-        let countdown = document.getElementById("countdown")
-        countdown.style.display = "block"
-        isRunning = true
-
-        let testBody = [{ x: 200, y: 100 },
-            { x: 190, y: 100 },
-            { x: 180, y: 100 },
-            { x: 170, y: 100 }
-            ]
-         drawBoard() 
-         resetSnake()
-
-        function test(body) {
-            ctx.fillStyle = "blue";
-            ctx.fillRect(body.x, body.y, 10, 10);
-            ctx.strokeStyle = "darkblue";
-            ctx.strokeRect(body.x, body.y, 10, 10);
-        }
-        
-        function deployTest() {
-            testBody.forEach(test)
-        }
-        deployTest()
-        
-            moveSnake(testBody)
-
-            function moveSnake() {
-                //Define the direction the head is moving
-                let head = { x: testBody[0].x + xDirection, y: testBody[0].y + yDirection }
-                let hasEatenIt = testBody[0].x === foodx && testBody[0].y === foody
-                //Changing coordinates, adding new positon to the array as snake object moves 
-                testBody.unshift(head);
-                if (hasEatenIt) {
-                    hasEaten()
-                } else {
-                    //removes the current position of the tail
-                    testBody.pop();
-                }
-            }
-            
-            // calculate score then randomize placement of the food
-            function hasEaten() {
-            
-                score += 10;
-                currentScore.innerHTML = score;
-                randomizeFood();
-            }
-        //     resetSnake()
-        //     drawBoard()
-        
-        //  startNewGame.style.display ="none"
-        //  scoreName.style.display = "none"
-        //  startgame.style.display = "block"
-        //  highScore.style.display ="block"
-        // difficulty.style.display = "block"
-        // body2.appendChild(newBody)
-    
-}
-
-
-startgame.addEventListener('click', () => begin(250));
+startgame.addEventListener('click', () => begin(85));
 
 function begin(difficulty) {
     canvas.style.display = "block"
     btnWindow.style.display = "none"
     gameBoard.style.display = "block"
     document.getElementById("countdown").style.display = "block"
-    document.getElementById("countdown").innerHTML = "block"
+    document.getElementById("countdown").innerHTML = 5
 
     // built in time function meaured in mili secs takes 2 args 
     setTimeout(function gameDelay() {
@@ -159,7 +70,7 @@ function begin(difficulty) {
             }, 1000)
 
         } else {
-
+            
             document.getElementById("countdown").innerHTML = timeleft;
         }
         timeleft -= 1;
@@ -196,10 +107,10 @@ let isRunning = true
 function drawBoard() {
     ctx.strokeStyle = '#9518dd';
     for (let i = 0; i <= canvas.width / unit + 2; i += 2) {
-      for (let j = 0; j <= canvas.height / unit + 2; j += 2) {
+        for (let j = 0; j <= canvas.height / unit + 2; j += 2) {
         ctx.strokeRect(0, 0, unit * i, unit * j);
     };
-    };
+};
     ctx.strokeStyle = '#9518dd';
     ctx.lineWidth = 2;
     for (let i = 1; i <= canvas.width / unit; i += 2) {
@@ -208,18 +119,18 @@ function drawBoard() {
     };
     };
     ctx.lineWidth = 1;
-  };
+};
 
-  function resetSnake() {
+function resetSnake() {
        snakeBody = [{ x: 200, y: 100 },
         { x: 190, y: 100 },
         { x: 180, y: 100 },
         { x: 170, y: 100 }
         ]
-  }
+    }
   
 
-
+    
 //helper function to ramdomize by ten pixels food once snake has eaten it 
 function randomTen(min, max) {
     return Math.round((Math.random() * (max - min) + min) / 10) * 10;
@@ -265,7 +176,7 @@ window.addEventListener("keydown", function (e) {
     else if (e.key === "ArrowDown" && yDirection !== -10) {
         xDirection = 0;
         yDirection = 10;
-
+        
     }
     else if (e.key === "ArrowRight" && xDirection !== -10) {
         xDirection = 10;
@@ -347,10 +258,10 @@ function has_game_ended() {
     const hitBottomWall = snakeBody[0].y > canvas.width - 10;
     // checks to see if snake collides with wall
     if (hitLeftWall || hitRightWall || hitToptWall || hitBottomWall) {
-
+        
         return isRunning = false
     }
-
+    
 }
 
 
@@ -364,7 +275,7 @@ function handleEndGame() {
     resetSnake();
     newGame();
     ctx.beginPath();
-
+    
 }
 
 
@@ -412,7 +323,7 @@ function submitScores(s) {
         name: s.target[0].value,
         score: score.innerText
     }
-
+    
     fetch(baseUrl, {
         method: 'POST',
         headers: {
@@ -422,13 +333,13 @@ function submitScores(s) {
         body: JSON.stringify(scoreInfo)
     })
         .then(getAllScores)
-    console.log(1)
+        console.log(1)
 }
 
 function getAllScores() {
     console.log(2)
     fetch(baseUrl)
-
+    
         .then(r => r.json())
         .then(data => {
             data.forEach(d => {
@@ -439,7 +350,7 @@ function getAllScores() {
 
 function getHighScores() {
     fetch("http://127.0.0.1:3000/high_scores")
-
+    
         .then(r => r.json())
         .then(data => {
             data.forEach(d => {
@@ -447,7 +358,7 @@ function getHighScores() {
             })
         })
 
-
+        
 }
 
 function renderHighScore(score) {
@@ -468,44 +379,78 @@ function renderScore(score) {
 }
 
 
-//     function newGame() {
+//new game button "creating onetime -click toggle" What the function does
+function newGame() {
+    let startNewGame = document.createElement("button");
+    let score = document.getElementById("score")
+    startNewGame.setAttribute("id", "newgame")
+    startNewGame.innerHTML = "New Game";
+    gameBoard.appendChild(startNewGame);
+    const snakeboard = document.getElementById("snakeboard")
+    startNewGame.addEventListener('click', function () {
+        gameBoard.removeChild(startNewGame)
+        submitScore.style.display = "none"
+        scoreName.style.display = "none"
+        gameBoard.style.display = "none"
+        currentScore.style.display = "none"
+        clear();
+        newCanvas();
 
-//     let startNewGame = document.createElement("button");
-//     startNewGame.innerHTML= "New Game";
-//      gameBoard.appendChild(startNewGame);
-//      startNewGame.addEventListener('click', function () {
-//          canvas.style.display = "none"
-//          submitScore.style.display = "none"
-//          currentScore.style.display = "none"
-//          scoreName.style.display = "none"
-//          startNewGame.style.display ="none"
-//          scoreName.style.display = "none"
-//          btnWindow.style.display = "inline"
-//     const snakeboard = document.getElementById("snakeboard")
-//         snakeboard.style.display = "block"
-//          // window.history.go(-1)
-
-
-//      })    
-// }
-
-
+        
+    })
+}
 
 
+function newCanvas () {
+     
+        btnWindow.style.display = "block"
+        let countdown = document.getElementById("countdown")
+        countdown.style.display = "block"
+        isRunning = true
 
+        let testBody = [{ x: 200, y: 100 },
+            { x: 190, y: 100 },
+            { x: 180, y: 100 },
+            { x: 170, y: 100 }
+            ]
+         drawBoard() 
+         resetSnake()
 
-// function playAgain() {
-//   document.getElementById('play-again').addEventListener('click', function(e) {
-//     document.getElementById('flappy-dot-template').remove();
-//     const canvas = document.createElement('canvas')
-//     canvas.setAttribute('id', 'canvas1');
-//     document.getElementById('carousel-parent').appendChild(canvas);
-//     const instruction = document.createElement('h2')
-//     instruction.innerHTML = "Press 'SPACE' to Fly";
-//     instruction.style = "color:yellow;"
-//     document.getElementById('carousel-parent').appendChild(instruction);
-//     startFlappyGame();
-//     e.preventDefault();
-//   })
-// }
+        function test(body) {
+            ctx.fillStyle = "blue";
+            ctx.fillRect(body.x, body.y, 10, 10);
+            ctx.strokeStyle = "darkblue";
+            ctx.strokeRect(body.x, body.y, 10, 10);
+        }
+        
+        function deployTest() {
+            testBody.forEach(test)
+        }
+        deployTest()
+        
+            moveSnake(testBody)
 
+            function moveSnake() {
+                //Define the direction the head is moving
+                let head = { x: testBody[0].x + xDirection, y: testBody[0].y + yDirection }
+                let hasEatenIt = testBody[0].x === foodx && testBody[0].y === foody
+                //Changing coordinates, adding new positon to the array as snake object moves 
+                testBody.unshift(head);
+                if (hasEatenIt) {
+                    hasEaten()
+                } else {
+                    //removes the current position of the tail
+                    testBody.pop();
+                }
+            }
+            
+            // calculate score then randomize placement of the food
+            function hasEaten() {
+            
+                score += 10;
+                currentScore.innerHTML = score;
+                randomizeFood();
+            }
+        
+    
+}
